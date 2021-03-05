@@ -107,7 +107,7 @@ export const App = () => {
                 <CardContent>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <Typography variant="h1" children="圖片批次上傳工具" />
+                            <Typography variant="h4" component="h1" children="圖片批次上傳工具" />
                         </Grid>
                         <Grid item xs={12}>
                             <Button children="重新載入" variant="outlined" onClick={() => loadCategories().then(setCategories)} />
