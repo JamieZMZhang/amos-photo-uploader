@@ -16,6 +16,7 @@ export const CategoryAccordion = ({
 	expanded = false,
 	onExpand = () => void 0,
 	onUpdate = () => void 0,
+	readonly = false,
 }) => {
 	const [loadingCount, setLoadingCount] = React.useState(0);
 
@@ -96,8 +97,8 @@ export const CategoryAccordion = ({
 	return (
 		<Accordion expanded={expanded} onChange={onExpand}>
 			<AccordionSummary>
-				<IconButton size="small" children={<EditIcon />} onClick={evt => onEditCategory(evt, category)} />
-				<IconButton size="small" children={<DeleteIcon />} style={{ marginRight: '.5rem' }} onClick={evt => onDeleteClick(evt, category)} />
+				<IconButton disabled={readonly} size="small" children={<EditIcon />} onClick={evt => onEditCategory(evt, category)} />
+				<IconButton disabled={readonly} size="small" children={<DeleteIcon />} style={{ marginRight: '.5rem' }} onClick={evt => onDeleteClick(evt, category)} />
 				<Typography variant="h6" component="span" children={category.label} />
 			</AccordionSummary>
 			<AccordionDetails style={{ flexDirection: 'column' }}>
@@ -121,25 +122,29 @@ export const CategoryAccordion = ({
 					)}
 				</List>
 			</AccordionDetails>
-			{editTarget !== undefined && (
-				<TextEditDialog
-					defaultValue={editTarget?.label}
-					title={iif(
-						editTarget === null, '新增子分類',
-						editTarget?.parentId, '編輯子分類',
-						'編輯分類'
-					)}
-					onResult={onEditResult}
-				/>
-			)}
-			{	deleteTarget !== undefined && (
-				<ConfirmDialog
-					title="刪除確認"
-					message={`請確認刪除：${deleteTarget?.label}`}
-					onResult={onConfirmDelete}
-				/>
-			)}
-			{!!loadingCount && <LoadingDialog />}
-		</Accordion>
+			{
+				editTarget !== undefined && (
+					<TextEditDialog
+						defaultValue={editTarget?.label}
+						title={iif(
+							editTarget === null, '新增子分類',
+							editTarget?.parentId, '編輯子分類',
+							'編輯分類'
+						)}
+						onResult={onEditResult}
+					/>
+				)
+			}
+			{
+				deleteTarget !== undefined && (
+					<ConfirmDialog
+						title="刪除確認"
+						message={`請確認刪除：${deleteTarget?.label}`}
+						onResult={onConfirmDelete}
+					/>
+				)
+			}
+			{ !!loadingCount && <LoadingDialog />}
+		</Accordion >
 	)
 };

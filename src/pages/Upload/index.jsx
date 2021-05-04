@@ -1,12 +1,13 @@
 import { Button, Card, CardActions, CardContent, Container, DialogContentText, Grid, LinearProgress } from '@material-ui/core';
 import React from 'react';
+import { ReactSortable } from 'react-sortablejs';
+import { ConfirmPageChange } from '../../components/ConfirmPageChange';
 import { uploadPhotos } from '../../helpers/photo';
 import { LoadingDialog } from './../../components/LoadingDialog';
 import { CategoryDropdown } from './CategoryDropdown';
 import { FileDropzone } from './FileDropzone';
 import { PhotoRow } from './PhotoRow';
 import { SubcategoryDropdown } from './SubcategoryDropdown';
-import { ReactSortable } from 'react-sortablejs';
 
 
 export const Upload = () => {
@@ -21,7 +22,6 @@ export const Upload = () => {
 		},
 		[setPhotos]
 	);
-
 	const onDeletePhoto = React.useCallback(
 		photo => {
 			setPhotos(imgs => {
@@ -65,6 +65,7 @@ export const Upload = () => {
 
 	return (
 		<Container maxWidth="lg" style={{ padding: '.5rem' }}>
+			<ConfirmPageChange when={!!photos.length} message="圖片還沒有上傳，離開頁面會清空列表，確定要離開嗎？" />
 			<Card>
 				<CardContent>
 					<Grid container spacing={2}>
@@ -86,8 +87,8 @@ export const Upload = () => {
 						</Grid>
 						<Grid item xs={12}>
 							<ReactSortable
-							 list={photos}
-							  setList={setPhotos}
+								list={photos}
+								setList={setPhotos}
 								handle=".drag-handle"
 							>
 								{photos.map(photo => (
@@ -107,11 +108,11 @@ export const Upload = () => {
 			</Card>
 			{uploadProgress !== undefined && uploadProgress < 100 && (
 				<LoadingDialog
-					title={`上傳中：${uploadProgress}%`}
+					title={`正在上傳${photos.length}張圖片`}
 					message={
 						<>
-							<LinearProgress style={{ height: 10 }} value={uploadProgress} variant="determinate" />
-							<DialogContentText children={`正在上傳${photos.length}圖片`} />
+							<LinearProgress style={{ height: 8 }} value={uploadProgress} variant="determinate" />
+							<DialogContentText children={`上傳中： ${uploadProgress}%`} style={{ marginTop: '.5rem' }} />
 						</>
 					}
 				/>

@@ -15,7 +15,7 @@ export async function loadSubCategories(categoryId) {
 		.filter(v => v.value);
 }
 
-export async function createCategory({ title, parentId }) {
+export async function createCategory({ title, parentId } = {}) {
 	if (!title) throw new Error('[title]不可為空');
 
 	const form = new FormData();
@@ -33,7 +33,7 @@ export async function createCategory({ title, parentId }) {
 	});
 }
 
-export async function updateCategory({ parentId, categoryId, newTitle }) {
+export async function updateCategory({ parentId, categoryId, newTitle } = {}) {
 	const form = new FormData();
 	form.append('name', newTitle);
 	form.append('id', categoryId);
@@ -50,7 +50,7 @@ export async function updateCategory({ parentId, categoryId, newTitle }) {
 	});
 }
 
-export async function deleteCategory({ categoryId, parentId }) {
+export async function deleteCategory({ categoryId, parentId } = {}) {
 	const tplUrl = parentId
 		? `/store_back/show_second_group_list.php?top_id=${parentId}`
 		: `/store_back/show_group_list.php`;
